@@ -123,7 +123,7 @@ public class Simulador {
         System.out.println("------------------------");
         System.out.println("Perda de clientes: " + perdaClientes);
         System.out.println("------------------------");
-        System.out.println("Tempo de simulaçao: " + tempoGlobal);
+        System.out.printf("Tempo de simulaçao: %.4f%n", tempoGlobal);
     }
 
     public static void main (String args[]) {
