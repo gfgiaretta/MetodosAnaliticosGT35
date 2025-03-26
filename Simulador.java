@@ -135,7 +135,7 @@ public class Simulador {
         Arrays.fill(tempos, 0);
         Arrays.fill(funcionarios, -1);
 
-        //gerador();
+        gerador();
 
         while (numerosUsados < quantidadeNumeros) {
             int evento = nextEvent();
