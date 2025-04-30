@@ -30,7 +30,7 @@ public class ConfigLoader {
             String nome = entry.getKey();
             Map<String, Object> props = entry.getValue();
             int servidores = (int) props.get("servers");
-            int capacidade = (int) props.get("capacity");
+            int capacidade = props.containsKey("capacity") ? ((Number) props.get("capacity")).intValue() : -1;
             double minServ = ((Number) props.get("minService")).doubleValue();
             double maxServ = ((Number) props.get("maxService")).doubleValue();
             listaFilas.add(new Fila(nome, servidores, capacidade, minServ, maxServ));

@@ -26,8 +26,9 @@ public class Simulador {
 
     private static PriorityQueue<Evento> escalonador = new PriorityQueue<>();
 
-    public static double[] gerador() {
+    public static double[] gerador(int quantidadeNumeros) {
         long s = seed;
+        numeros = new double[quantidadeNumeros];
         for (int i = 0; i < quantidadeNumeros; i++) {
             s = (a * s + c) % M;
             numeros[i] = (double) s / M;
@@ -110,14 +111,15 @@ public class Simulador {
 
         numerosUsados = 0;
         tempoGlobal = 0;
-        numeros = new double[quantidadeNumeros];
 
         for(Fila f: filas) {
             f.validarNomesProbFila();
         }
 
-        gerador();
-        agendarEvento(new Evento(-1, nomeFilaChegada, primeiraChegada)); // primeira chegada
+        gerador(quantidadeNumeros);
+        for (int i = 0; i < numeros.length; i++) {
+        }
+        agendarEvento(new Evento(-1, "", nomeFilaChegada, primeiraChegada)); // primeira chegada
     
         while (!escalonador.isEmpty() && numerosUsados < quantidadeNumeros) {
             Evento evento = escalonador.poll();
@@ -127,11 +129,17 @@ public class Simulador {
                 f.acumulaTempo(tempoEvento, tempoGlobal);
             }
         
-            Fila fila = getFilaPorNome(evento.nomeFila);
+            Fila filaOrigem = getFilaPorNome(evento.nomeFilaOrigem);
+            Fila filaDestino = getFilaPorNome(evento.nomeFilaDestino);
             if (evento.tipo == -1) {
-                fila.chegada(tempoEvento, evento.nomeFila);
+                if (evento.nomeFilaOrigem.equals("")) {
+                    filaDestino.chegada(tempoEvento, evento.nomeFilaDestino, true);
+                }
+                else {
+                    filaDestino.chegada(tempoEvento, evento.nomeFilaDestino, false);
+                }
             } else {
-                fila.saida(evento.tipo, tempoEvento, evento.nomeFila, evento.nomeFilaDestino);
+                filaOrigem.saida(evento.tipo, tempoEvento, evento.nomeFilaOrigem, evento.nomeFilaDestino);
             }
         
             tempoGlobal = tempoEvento;

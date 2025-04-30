@@ -25,7 +25,11 @@ public class Fila {
         this.atendimentoMax = atendimentoMax;
         this.probFilas = probFilas;
 
-        this.tempos = new double[capFila + 1];
+        if (capFila <= 0) {
+            this.capFila = Simulador.quantidadeNumeros;
+        }
+
+        this.tempos = new double[this.capFila + 1];
         this.funcionarios = new double[numFuncionarios];
         Arrays.fill(this.funcionarios, -1);
         Collections.sort(probFilas);
@@ -39,7 +43,11 @@ public class Fila {
         this.atendimentoMax = atendimentoMax;
         this.probFilas = new ArrayList<>();
 
-        this.tempos = new double[capFila + 1];
+        if (capFila <= 0) {
+            this.capFila = Simulador.quantidadeNumeros;
+        }
+
+        this.tempos = new double[this.capFila + 1];
         this.funcionarios = new double[numFuncionarios];
         Arrays.fill(this.funcionarios, -1);
     }
@@ -99,6 +107,7 @@ public class Fila {
             throw new IllegalStateException("A soma das probabilidades não pode ser maior que 1.");
         }
         probFilas.add(new ProbabilidadeFila(nomeFila, probabilidade));
+        Collections.sort(probFilas);
     }
 
     public void validarNomesProbFila() {
@@ -146,7 +155,7 @@ public class Fila {
         }
     }
 
-    public void chegada(double tempoAtual, String nomeFila) {
+    public void chegada(double tempoAtual, String nomeFila, boolean deFora) {
         if (pessoas < capFila) {
             pessoas++;
             int funcionario = buscaFuncionarioLivre();
@@ -159,9 +168,9 @@ public class Fila {
             perdaClientes++;
         }
     
-        if ((Simulador.numerosUsados < Simulador.quantidadeNumeros) && nomeFila.equals(Simulador.nomeFilaChegada)) {
+        if ((Simulador.numerosUsados < Simulador.quantidadeNumeros) && nomeFila.equals(Simulador.nomeFilaChegada) && deFora) {
             double proximaChegada = tempoAtual + Simulador.geraTempo(Simulador.chegadaMin, Simulador.chegadaMax);
-            Simulador.agendarEvento(new Evento(-1, nomeFila, proximaChegada));
+            Simulador.agendarEvento(new Evento(-1, "", nomeFila, proximaChegada));
         }
     }
     
@@ -175,7 +184,7 @@ public class Fila {
         }
 
         if (!nomeFilaDestino.equals("")) {
-            Simulador.agendarEvento(new Evento(-1, nomeFilaDestino, tempoAtual));
+            Simulador.agendarEvento(new Evento(-1, nomeFila, nomeFilaDestino, tempoAtual));
         }
     }
 
