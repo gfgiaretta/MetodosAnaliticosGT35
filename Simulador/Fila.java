@@ -67,6 +67,22 @@ public class Fila {
         return nome;
     }
 
+    public int getNumFuncionarios() {
+        return numFuncionarios;
+    }
+
+    public int getCapacidade() {
+        return capFila;
+    }
+
+    public double getMinServico() {
+        return atendimentoMin;
+    }
+
+    public double getMaxServico() {
+        return atendimentoMax;
+    }
+
     public ArrayList<ProbabilidadeFila> getProbFilas() {
         return probFilas;
     }

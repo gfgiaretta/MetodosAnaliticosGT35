@@ -1,0 +1,84 @@
+# Para utilizar este simulador, crie um arquivo yml seguindo este modelo.
+#
+# a: 1675893
+# c: 3345554
+# M: 6574367296
+# seed: 3
+#     Estas são as variáveis utilizadas para manipular o gerador de números pseudoaleatórios
+
+# rndnumbers: 100000
+#     Quantidade de números pseudoaleatórios a serem gerados
+
+# arrivalQueue: Q1
+# firstArrival: 45.0
+# minArrival: 20.0
+# maxArrival: 40.0
+#     Estas variáveis definem a fila de chegada, o tempo da primeira chegada, e os tempos minimo e máximo de cada chegada em diante. 
+#          Nota: Por enquanto, o simulador suporta apenas uma fila de chegada.
+
+# queues: 
+#    Q1: 
+#       servers: 1
+#       capacity: 5
+#       minService: 10.0
+#       maxService: 12.0
+#    Q2: 
+#       servers: 2
+#       capacity: 5
+#       minService: 30.0
+#       maxService: 120.0
+#    Q3: 
+#       servers: 2
+#       capacity: 5
+#       minService: 15.0
+#       maxService: 60.0
+#               Estas variáveis definem as filas do sistema, incluindo nome, número de funcionarios, capacidade máxima e tempos mínimo e máximo de serviço
+
+# network: 
+# -  source: Q1
+#    target: Q2
+#    probability: 0.78
+# -  source: Q1
+#    target: Q3
+#    probability: 0.12
+#          Estas são as probabilidades de uma pessoa entrar em outra fila após sair da que estava. 
+#               Nota: A soma das probabilidades de uma fila "source" não pode ser maior que 1, e não podem ser declaradas possibilidades menores que 0.
+#               Nota: Não precisam ser declaradas probabilidades para a saída do sistema para o exterior. A diferença entre a soma de todas as probabilidades e 1 já cuida disso.
+#               Nota: Não utilize o nome de fila vazio "", pois este é reservado para se referir ao exterior no código
+
+a: 1675893
+c: 3345554
+M: 6574367296
+seed: 3
+
+rndnumbers: 100000
+
+arrivalQueue: Q1
+firstArrival: 45.0
+minArrival: 20.0
+maxArrival: 40.0
+
+queues: 
+   Q1: 
+      servers: 1
+      capacity: 5
+      minService: 10.0
+      maxService: 12.0
+   Q2: 
+      servers: 2
+      capacity: 5
+      minService: 30.0
+      maxService: 120.0
+   Q3: 
+      servers: 2
+      capacity: 5
+      minService: 15.0
+      maxService: 60.0
+
+network: 
+-  source: Q1
+   target: Q2
+   probability: 0.78
+-  source: Q1
+   target: Q3
+   probability: 0.12

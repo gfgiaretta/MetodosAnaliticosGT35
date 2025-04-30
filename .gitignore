@@ -1,0 +1,13 @@
+.vscode/
+
+*.class
+
+*~
+*.swp
+.DS_Store
+
+*.log
+
+bin/
+build/
+out/

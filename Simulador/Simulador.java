@@ -3,39 +3,23 @@ import java.util.*;
 
 public class Simulador {
 
-/*VARIÁVEIS EDITÁVEIS
-    Estas são as variáveis que podem ser editadas pelo usuário para alterar os resultados da simulação.
-*/
-    static double chegadaMin = 20; //Tempo mínimo de chegada na primeira fila;
-    static double chegadaMax = 40; //Tempo máximo de chegada na primeira fila;
+    static double chegadaMin;
+    static double chegadaMax;
 
-    static double primeiraChegada = 45; //Tempo da primeira chegada;
+    static double primeiraChegada;
 
-    static long a = 1675893; //Números utilizados pelo gerador de números pesudoaleatórios
-    static long c = 3345554;
-    static long M = 6574367296L;
-    static long seed = 3;
+    static long a;
+    static long c;
+    static long M;
+    static long seed;
 
-    static int quantidadeNumeros = 100000; //Quantidade de números pseudoaleatórios a serem gerados;
+    static int quantidadeNumeros;
 
-    static String nomeFilaChegada =  "Fila 1"; //Nome da fila de chegada de pessoas do exterior; obs: o nome vazio "" está reservado e não pode ser usado.
+    static String nomeFilaChegada;
 
-    public static Fila[] filas = { //Vetor com as definições de cada fila. O construtor do objeto Fila deve receber, em ordem: nome da fila, número de funcionários, capacidade da fila, tempos mínimo e máximo de atendimento, e a lista de probabilidades de roteamento para outras filas ao sair desta;
-        new Fila("Fila 1", 1, 5, 10, 12, 
-            new ArrayList<>(List.of(
-                new ProbabilidadeFila("Fila 2", 0.78), 
-                new ProbabilidadeFila("Fila 3", 0.12)
-            ))
-        ),
-        new Fila("Fila 2", 2, 5, 30, 120),
-        new Fila("Fila 3", 2, 5, 15, 60),
-    };
-    
-    
-/*VARIÁVEIS NÃO-EDITÁVEIS
-    Estas são as variáveis que são utilizadas e modificadas no decorrer do programa, não sendo modificadas pelo usuário.
- */    
-    static double[] numeros = new double[quantidadeNumeros];
+    public static Fila[] filas;
+ 
+    static double[] numeros;
     //static double[] numeros = {0.7, 0.1, 0.1, 0.8, 0.1, 0.9, 0.6, 0.5, 0.1, 0.6, 0.2, 0.2, 0.7, 0.5, 0.9};
     static int numerosUsados;
     static double tempoGlobal;
@@ -89,9 +73,44 @@ public class Simulador {
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+
+        if (args.length == 0) {
+            throw new IllegalArgumentException("É necessário informar o nome do arquivo .yml como argumento.");
+        }
+        
+        String caminhoArquivo = args[0];
+
+        if (args.length > 0) {
+            caminhoArquivo = args[0];
+        }
+        ConfigLoader.carregarParametros(caminhoArquivo);
+
+        // System.out.println("chegadaMin: " + chegadaMin);
+        // System.out.println("chegadaMax: " + chegadaMax);
+        // System.out.println();
+        // System.out.println("primeiraChegada: " + primeiraChegada);
+        // System.out.println();
+        // System.out.println("a: " + a);
+        // System.out.println("c: " + c);
+        // System.out.println("M: " + M);
+        // System.out.println("seed: " + seed);
+        // System.out.println();
+        // System.out.println("quantidadeNumeros: " + quantidadeNumeros);
+        // System.out.println();
+        // System.out.println("nomeFilaChegada: " + nomeFilaChegada);
+        // System.out.println();
+
+        // for (Fila f: filas) {
+        //     System.out.println("   fila" + f.getNome() + ": funcionarios: " + f.getNumFuncionarios() + ", capacidade: " + f.getCapacidade() + ", minServico: " + f.getMinServico() + ", maxServico: " + f.getMaxServico());
+        //     for (ProbabilidadeFila pf: f.getProbFilas()) {
+        //         System.out.println("      Prob fila " + pf.getNomeFila() + ": " + pf.getProbabilidade());
+        //     }
+        // }
+
         numerosUsados = 0;
         tempoGlobal = 0;
+        numeros = new double[quantidadeNumeros];
 
         for(Fila f: filas) {
             f.validarNomesProbFila();
